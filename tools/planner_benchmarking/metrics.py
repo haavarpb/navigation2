@@ -100,11 +100,6 @@ def main():
 
     navigator = BasicNavigator()
 
-    # Set map to use, other options: 100by100_15, 100by100_10
-    map_path = os.getcwd() + '/' + glob.glob('**/100by100_20.yaml', recursive=True)[0]
-    navigator.changeMap(map_path)
-    time.sleep(2)
-
     # Get the costmap for start/goal validation
     costmap_msg = navigator.getGlobalCostmap()
     costmap = np.asarray(costmap_msg.data)
