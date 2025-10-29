@@ -16,6 +16,7 @@ import os
 
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
@@ -28,14 +29,14 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument(name="nav2_params", default_value=config, description="The navigation2 parameters file."),
-        DeclareLaunchArgument(name="map file", default_value=map_file, description="The map."),
+        DeclareLaunchArgument(name="map_file", default_value=map_file, description="The map."),
         Node(
             package='nav2_map_server',
             executable='map_server',
             name='map_server',
             output='screen',
             parameters=[{'use_sim_time': True},
-                        {'yaml_filename': map_file},
+                        {'yaml_filename': LaunchConfiguration("map_file")},
                         {'topic_name': "map"}]),
 
         Node(
@@ -43,7 +44,7 @@ def generate_launch_description():
             executable='planner_server',
             name='planner_server',
             output='screen',
-            parameters=[config]),
+            parameters=[LaunchConfiguration("nav2_params")]),
 
         Node(
             package = 'tf2_ros',
