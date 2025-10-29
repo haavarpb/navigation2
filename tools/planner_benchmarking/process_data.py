@@ -41,14 +41,14 @@ def getTimes(results):
     return times
 
 
-def getMapCoordsFromPaths(paths, resolution):
+def getMapCoordsFromPaths(paths, resolution, origin):
     coords = []
     for path in paths:
         x = []
         y = []
         for pose in path.poses:
-            x.append(pose.pose.position.x/resolution)
-            y.append(pose.pose.position.y/resolution)
+            x.append((pose.pose.position.x - origin[0])/resolution)
+            y.append((pose.pose.position.y - origin[1])/resolution)
         coords.append(x)
         coords.append(y)
     return coords
@@ -68,7 +68,10 @@ def getPathLength(path):
 
 
 def plotResults(costmap, paths):
-    coords = getMapCoordsFromPaths(paths, costmap.metadata.resolution)
+    ox = costmap.metadata.origin.position.x
+    oy = costmap.metadata.origin.position.y
+    origin = np.array([ox, oy])
+    coords = getMapCoordsFromPaths(paths, costmap.metadata.resolution, origin)
     data = np.asarray(costmap.data)
     data.resize(costmap.metadata.size_y, costmap.metadata.size_x)
     data = np.where(data <= 253, 0, data)
@@ -83,7 +86,10 @@ def plotResults(costmap, paths):
 
 
 def averagePathCost(paths, costmap, num_of_planners):
-    coords = getMapCoordsFromPaths(paths, costmap.metadata.resolution)
+    ox = costmap.metadata.origin.position.x
+    oy = costmap.metadata.origin.position.y
+    origin = np.array([ox, oy])
+    coords = getMapCoordsFromPaths(paths, costmap.metadata.resolution, origin)
     data = np.asarray(costmap.data)
     data.resize(costmap.metadata.size_y, costmap.metadata.size_x)
 
@@ -103,7 +109,10 @@ def averagePathCost(paths, costmap, num_of_planners):
 
 
 def maxPathCost(paths, costmap, num_of_planners):
-    coords = getMapCoordsFromPaths(paths, costmap.metadata.resolution)
+    ox = costmap.metadata.origin.position.x
+    oy = costmap.metadata.origin.position.y
+    origin = np.array([ox, oy])
+    coords = getMapCoordsFromPaths(paths, costmap.metadata.resolution, origin)
     data = np.asarray(costmap.data)
     data.resize(costmap.metadata.size_y, costmap.metadata.size_x)
 
