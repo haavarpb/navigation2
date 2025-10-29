@@ -17,15 +17,12 @@ from geometry_msgs.msg import PoseStamped
 from nav2_simple_commander.robot_navigator import BasicNavigator
 import rclpy
 import sys
-from ament_index_python.packages import get_package_share_directory
 import argparse
 from functools import partial
 
 import math
 import os
 import pickle
-import glob
-import time
 import numpy as np
 
 from random import seed
