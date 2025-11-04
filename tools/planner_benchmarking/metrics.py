@@ -106,10 +106,11 @@ def poseStamped(frame_id, pose2d, ts, start):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-s', nargs=3, default=None)
-    parser.add_argument('-g', nargs=3, default=None)
-    parser.add_argument('-it', default=100)
-    parser.add_argument('-p', nargs="+", default=['GridBased'])
+    parser.add_argument('-s', '--start_pose', nargs=3, default=None, metavar=tuple("xyz"))
+    parser.add_argument('-g', '--goal_pose', nargs=3, default=None, metavar=tuple("xyz"))
+    parser.add_argument('-it', '--iterations', default=100, metavar='n')
+    parser.add_argument('-p', '--planners', nargs="+", default=['GridBased'])
+    parser.add_argument('-r', '--random_seed', type=int, default=33)
     args = parser.parse_args(sys.argv[1:])
 
     rclpy.init()
@@ -128,7 +129,7 @@ def main():
     side_buffer = round(np.min(costmap.shape)*0.1)
     time_stamp = navigator.get_clock().now().to_msg()
     results = []
-    seed(33)
+    seed(args.r)
     random_pairs = int(args.it)
     res = costmap_msg.metadata.resolution
 
