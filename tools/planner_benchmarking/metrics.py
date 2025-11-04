@@ -106,8 +106,8 @@ def poseStamped(frame_id, pose2d, ts, start):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-s', '--start_pose', nargs=3, default=None, metavar=tuple("xyz"))
-    parser.add_argument('-g', '--goal_pose', nargs=3, default=None, metavar=tuple("xyz"))
+    parser.add_argument('-s', '--start_pose', nargs=3, default=None, metavar=("x", "y", "theta"))
+    parser.add_argument('-g', '--goal_pose', nargs=3, default=None, metavar=("x", "y", "theta"))
     parser.add_argument('-it', '--iterations', default=100, metavar='n')
     parser.add_argument('-p', '--planners', nargs="+", default=['GridBased'])
     parser.add_argument('-r', '--random_seed', type=int, default=33)
